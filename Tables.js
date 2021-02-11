@@ -9,12 +9,6 @@
     // hidden within the scope of the IIFE and never directly accessible
     var hiddenVariables = [];
 
-    //private functions
-    function privateFunction() {
-        console.log('PRIVATE FUNCTION CALLED')
-    }
-
-    //private function
     function _countColumns(json) {
         var max = 0;
         for (var i = 0; i < json.length; i++) {
@@ -32,11 +26,6 @@
         jQuery('body').append(table);
 
         return table;
-    }
-
-    function _addTableHeaders(tableHeaders) {
-        console.log(this);
-        console.log(tableHeaders)
     }
 
     // prototype holds methods (to save memory space)
@@ -64,12 +53,17 @@
 
         addData(json) {
             var numRows = json.length;
-            var numCols = this.table.headers.length;
+            var headers = this.table.headers;
+            var numCols = headers.length;
 
-            for (var r = 0; r < numRows; r++) {
+            for (var r = 1; r < numRows; r++) {
                 var tr = $('<tr>');
-                for (var c = 0; c < numCols; c++)
-                    $('<td>test value</td>').appendTo(tr);
+                for (var c = 0; c < numCols; c++) {
+                    var headerName = headers[c];
+                    var jsonValue = json[r][headerName];
+                    console.log(jsonValue)
+                    $('<td>' + jsonValue + '</td>').appendTo(tr);
+                }
                 tr.appendTo(this.table);
             }
             return this;

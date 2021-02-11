@@ -1,9 +1,9 @@
 $.getJSON("mock.json", function(json) {
-    T$('myTablee').newTable().addHeaders(['name', 'lastname', 'age']).addData(json);
+    T$('myTablee').newTable().addHeaders(['Name', 'Legacy Id', 'Country']).addData(json);
 
-    //TODO: 
-    // - addPagination(amount)
-    // - addHeaderFilter('headerName') or addHeaderFilters()
-    // - addSortOn('headerName')
+    //TODO: s
+    // - add Pagination(amount)
+    // - add HeaderFilter('headerName') or addHeaderFilters()
+    // - add SortOn('headerName')
 
 });
