@@ -22,8 +22,8 @@
 
     function _getColumnIndex(table, columnName) {
         var headers = table.headers;
-        for(var i = 0; i < headers.length; i++) {
-            if(headers[i] === columnName)
+        for (var i = 0; i < headers.length; i++) {
+            if (headers[i] === columnName)
                 return i;
         }
     }
@@ -33,6 +33,20 @@
         jQuery('body').append(table);
 
         return table;
+    }
+
+    function _filterTable(table, userInput, reversed) {
+        if (userInput === "") {
+            $(table.rows).show();
+        } else {
+            $(table.rows).filter(function () {
+                if (reversed) {
+                    return $(this).text().indexOf(userInput) !== -1;
+                } else {
+                    return $(this).text().indexOf(userInput) === -1;
+                }
+            }).hide();
+        }
     }
 
     // prototype holds methods (to save memory space)
@@ -76,7 +90,7 @@
             return this;
         },
 
-        sortBy(columnName, direction) {
+        sortBy(sortType, columnName, direction) {
             var table = this.table;
             var columnIndex = _getColumnIndex(table, columnName);
             var rows, switching, x, y, shouldSwitch, direction, switchcount = 0;
@@ -89,18 +103,45 @@
                 for (var i = 1; i < (rows.length - 1); i++) {
                     shouldSwitch = false;
 
-                    x = rows[i].getElementsByTagName("td")[columnIndex];
-                    y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                    x = rows[i].getElementsByTagName('td')[columnIndex];
+                    y = rows[i + 1].getElementsByTagName('td')[columnIndex];
 
-                    if (direction == "ascending") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
+                    //TODO: refactor this
+                    if (sortType === 'alphabetic') {
+                        if (direction === 'ascending') {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (direction === 'descending') {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
                         }
-                    } else if (direction == "descending") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
+                    } else if (sortType === 'numeric') {
+                        if (direction === 'ascending') {
+                            if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (direction === 'descending') {
+                            if ((Number(x.innerHTML) < Number(y.innerHTML))) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    } else if (sortType === 'date') {
+                        if (direction === 'ascending') {
+                            if (new Date(x.innerHTML) > new Date(y.innerHTML)) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (direction === 'descending') {
+                            if (new Date(x.innerHTML) < new Date(y.innerHTML)) {
+                                shouldSwitch = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -110,11 +151,24 @@
                     switchcount++;
                 } else {
                     if (switchcount == 0 && direction == "ascending") {
-                        dir = "descending";
+                        direction = "descending";
                         switching = true;
                     }
                 }
             }
+            return this;
+        },
+
+        addFilter() {
+            var table = this.table;
+            $('input').bind("enterKey", function (e) {
+                _filterTable(table, e.target.value)
+            });
+            $('input').keyup(function (e) {
+                if (e.keyCode == 13) {
+                    $(this).trigger("enterKey");
+                }
+            });
         }
 
     };

@@ -3,10 +3,9 @@ $.getJSON("mock.json", function(json) {
     .newTable()
     .addHeaders(['Title', 'Requirement Text', 'Name', 'Legacy Id', 'Path', 'Released Date'])
     .addData(json)
-    .sortBy('Path', 'ascending');
+    .sortBy('date', 'Released Date', 'ascending')
+    .addFilter();
 
-    //TODO: s
-    // - improve sortBy with extra param to sort numeric and date;
-    // - add filter
-
+    //TODO:
+    // - add global text filter
 });
