@@ -20,6 +20,14 @@
         return max;
     }
 
+    function _getColumnIndex(table, columnName) {
+        var headers = table.headers;
+        for(var i = 0; i < headers.length; i++) {
+            if(headers[i] === columnName)
+                return i;
+        }
+    }
+
     function _createEmptyTable() {
         var table = document.createElement('table');
         jQuery('body').append(table);
@@ -42,7 +50,7 @@
             this.table.headers = headers;
             var tr = $('<tr>');
 
-            for(var i = 0; i < headers.length; i++) {
+            for (var i = 0; i < headers.length; i++) {
                 $('<th>' + headers[i] + '</td>').appendTo(tr);
                 tr.appendTo(this.table);
             }
@@ -66,6 +74,47 @@
                 tr.appendTo(this.table);
             }
             return this;
+        },
+
+        sortBy(columnName, direction) {
+            var table = this.table;
+            var columnIndex = _getColumnIndex(table, columnName);
+            var rows, switching, x, y, shouldSwitch, direction, switchcount = 0;
+            switching = true;
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+
+                for (var i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+
+                    x = rows[i].getElementsByTagName("td")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                    if (direction == "ascending") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (direction == "descending") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && direction == "ascending") {
+                        dir = "descending";
+                        switching = true;
+                    }
+                }
+            }
         }
 
     };
