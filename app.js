@@ -1,5 +1,5 @@
 $.getJSON("mock.json", function(json) {
-    T$('myTablee')
+    T$('testTable')
     .newTable()
     .addHeaders(['Title', 'Requirement Text', 'Name', 'Legacy Id', 'Path', 'Released Date'])
     .addData(json)
