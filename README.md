@@ -2,7 +2,7 @@ Tables - a js framework to easily build tables from json data
 
 Uses basic function chaining to create a simple table that is sortable and filterable.
 
-Eample: 
+Example: 
 ```javascript
 T$('exTable')
     .newTable()
