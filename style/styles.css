@@ -13,4 +13,8 @@ table {
     padding: 8px;
   }
 
+  .highlight {
+    background-color: yellow;
+  }
+
   tr:nth-child(even) {background-color: #bfdee7;}

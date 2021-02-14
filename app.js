@@ -7,5 +7,5 @@ $.getJSON("mock.json", function(json) {
     .addFilter();
 
     //TODO:
-    // - add text highlight for filter
+    // - refactor Tables
 });

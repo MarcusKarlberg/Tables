@@ -38,14 +38,28 @@
     function _filterTable(table, userInput, reversed) {
         if (userInput === "") {
             $(table.rows).show();
+            $('.highlight').removeClass('highlight');
         } else {
             $(table.rows).filter(function () {
                 if (reversed) {
+                    _highlightTex($(this).find('td'), userInput)
                     return $(this).text().indexOf(userInput) !== -1;
                 } else {
+                    _highlightTex($(this).find('td'), userInput)
                     return $(this).text().indexOf(userInput) === -1;
                 }
             }).hide();
+        }
+
+        function _highlightTex(data, userInput) {
+            for (var i = 0; i < data.length; i++) {
+                var text = data[i].textContent;
+                var index = text.indexOf(userInput);
+                if (index >= 0) {
+                    var highlightedText = text.substring(0, index) + "<span class='highlight'>" + text.substring(index, index + userInput.length) + "</span>" + text.substring(index + text.length);
+                    data[i].innerHTML = text.replace(userInput, highlightedText);
+                }
+            }
         }
     }
 
