@@ -8,7 +8,7 @@ T$('exTable')
     .newTable('#table1') //location param - at div id='table1'
     .addHeaders(['Title', 'Requirement Text', 'Name', 'Legacy Id', 'Path', 'Released Date'])  //Headers matching json object keys
     .addData(json)
-    .sortBy('date', 'Released Date', 'ascending')
+    .sortBy('alphabetic', 'Name', 'ascending')
     .addFilter();
     
 T$('testTable2')
