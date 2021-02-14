@@ -1,6 +1,6 @@
 $.getJSON("mock.json", function (json) {
     T$('testTable')
-        .newTable('#table1')
+        .newTable('#table1') //location param - ex: div id=table1
         .addHeaders(['Title', 'Requirement Text', 'Name', 'Legacy Id', 'Path', 'Released Date'])
         .addData(json)
         .sortBy('alphabetic', 'Path', 'ascending')
@@ -14,5 +14,5 @@ $.getJSON("mock.json", function (json) {
         .addFilter();
 
     //TODO:
-    // - dynamically generate html input for filter
+    // - dynamically generate html input for table filter
 });
