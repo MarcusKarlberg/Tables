@@ -28,9 +28,13 @@
         }
     }
 
-    function _createEmptyTable() {
+    function _createEmptyTable(location) {
         var table = document.createElement('table');
-        jQuery('body').append(table);
+        if(location) {
+            jQuery(location).append(table);
+        } else {
+            jQuery('body').append(table);
+        }
 
         return table;
     }
@@ -68,8 +72,8 @@
 
         // 'this' refers to the calling object at execution time
         //table headers array must match jsonData object keys
-        newTable: function () {
-            this.table = _createEmptyTable();
+        newTable: function (location) {
+            this.table = _createEmptyTable(location);
 
             return this;
         },
